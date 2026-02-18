@@ -1,5 +1,5 @@
 // ===== НАСТРОЙКИ ПОД ТВОЮ ТАБЛИЦУ =====
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzOvqr-TxyexCwenrSGmrIJlGESxYWrvZVw45Er9cuXtDU7iPBbVEc1Z0uknISjhH6m/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzhxtTYwykmM02lRaz6wi7gn2biWzNIpJEBOwdDs6VL6SGlOTOLXXiGXea7MOP7UqMA/exec";
 const SECRET  = "12345"; // потом поменяешь
 
 const WORK_START = "10:00";
