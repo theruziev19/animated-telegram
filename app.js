@@ -1,7 +1,7 @@
 /***********************
  * CONFIG
  ***********************/
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwx8MMV9lhzN2WRPb_G-5TrCRRg2bjgp00hztJrMuHRbE7F5OsfQuEb_QolfCfyK_fv/exec"; // тот URL, который у тебя реально пишет в таблицу
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz0H5JD2Z69XTLFRKV4OTcvT9Q8b3PSJo7JMSY3qHaHUfM0eYPO1Ld50Acg-p_B5wzC/exec"; // тот URL, который у тебя реально пишет в таблицу
 const SECRET  = "12345"; // как в Apps Script
 
 const WORK_START = "10:00";
