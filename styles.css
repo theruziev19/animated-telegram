@@ -249,3 +249,40 @@ body{
 }
 .profileName{ font-weight:900;font-size:18px; }
 .profileUser{ color:var(--muted);font-size:14px; }
+
+
+.myItem{
+  padding:14px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.myItem:first-child{border-top:none;}
+.myMain{flex:1;}
+.myTitle{font-weight:900;font-size:16px;margin-bottom:4px}
+.mySub{color:var(--muted);font-size:13px;line-height:1.25}
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.badge.ok{background:#eaffea;border-color:#bfe8bf;}
+.badge.cancel{background:#fff1f1;border-color:#ffd0d0;}
+.smallBtn{
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+  font-weight:900;
+}
+.smallBtn.danger{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
