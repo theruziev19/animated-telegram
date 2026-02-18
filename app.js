@@ -568,6 +568,12 @@ async function loadMyBookings(){
   }
 }
 
+function isoToRu(iso){
+  const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return String(iso || "");
+  return `${m[3]}.${m[2]}.${m[1]}`;
+}
+
 function renderMyList(items, phone){
   const box = $("myList");
   if (!box) return;
@@ -582,7 +588,7 @@ function renderMyList(items, phone){
 
     const title = document.createElement("div");
     title.className = "myTitle";
-    title.textContent = `${it.service} • ${it.date} • ${it.time}`;
+    title.textContent = `${it.service} • ${isoToRu(it.date)} • ${it.time}`;
 
     const badge = document.createElement("span");
     badge.className = "badge " + (it.status === "canceled" ? "cancel" : "ok");
@@ -590,7 +596,7 @@ function renderMyList(items, phone){
 
     const sub = document.createElement("div");
     sub.className = "mySub";
-    sub.textContent = `Длительность: ${it.duration_min} мин\nID: ${it.booking_id}`;
+    sub.textContent = `Длительность: ${it.duration_min} мин`;
 
     main.appendChild(title);
     main.appendChild(badge);
