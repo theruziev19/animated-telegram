@@ -62,6 +62,16 @@
         </div>
       </div>
 
+        <div class="menuItem" data-open="screenMy">
+          <div class="miIcon">🧾</div>
+          <div class="miText">
+            <div class="miTitle">Мои записи</div>
+            <div class="miSub">История и отмена</div>
+          </div>
+          <div class="miArrow">›</div>
+        </div>
+
+
       <div class="bottom">
         <button class="primary" id="goConfirm" disabled>Продолжить</button>
         <div class="note" id="homeNote">Выбери услугу и дату/время.</div>
@@ -202,6 +212,27 @@
         <button class="primary" data-open="screenHome">Назад</button>
       </div>
     </section>
+
+    <!-- SCREEN: MY BOOKINGS -->
+<section class="screen" id="screenMy">
+  <div class="h1">Мои записи</div>
+
+  <div class="card pad">
+    <div class="label">Телефон (как при записи)</div>
+    <input class="field" id="myPhone" placeholder="+7 999 000-00-00" />
+    <div class="gap"></div>
+    <button class="primary" id="myLoad">Показать</button>
+    <div class="note" id="myNote">Покажем последние записи по телефону.</div>
+  </div>
+
+  <div class="gap"></div>
+  <div class="card" id="myList"></div>
+
+  <div class="bottom">
+    <button class="primary" data-open="screenHome">Назад</button>
+  </div>
+</section>
+
 
   </div>
 
