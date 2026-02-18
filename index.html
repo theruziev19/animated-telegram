@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Барбершоп • Запись</title>
+
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <button class="iconBtn" id="backBtn" aria-label="Назад">←</button>
+
+      <div class="brandRow">
+        <div class="logo">
+          <img alt="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Scissors_icon.svg/512px-Scissors_icon.svg.png">
+        </div>
+        <div>
+          <div class="brandTitle">Барбершоп Казань</div>
+          <div class="brandAddr">Дементьева, 72к5</div>
+        </div>
+      </div>
+
+      <button class="iconBtn" id="profileBtn" aria-label="Профиль">👤</button>
+    </div>
+
+    <!-- SCREEN: HOME -->
+    <section class="screen active" id="screenHome">
+      <div class="card">
+        <div class="menuItem" data-open="screenSpec">
+          <div class="miIcon">👥</div>
+          <div class="miText">
+            <div class="miTitle">Выбрать специалиста</div>
+            <div class="miSub" id="specSub">1 мастер (по умолчанию)</div>
+          </div>
+          <div class="miArrow">›</div>
+        </div>
+
+        <div class="menuItem" data-open="screenDate">
+          <div class="miIcon">📅</div>
+          <div class="miText">
+            <div class="miTitle">Выбрать дату и время</div>
+            <div class="miSub" id="dtSub">Не выбрано</div>
+          </div>
+          <div class="miArrow">›</div>
+        </div>
+
+        <div class="menuItem" data-open="screenServices">
+          <div class="miIcon">≡</div>
+          <div class="miText">
+            <div class="miTitle">Выбрать услуги</div>
+            <div class="miSub" id="svcSub">Не выбрано</div>
+          </div>
+          <div class="miArrow">›</div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <button class="primary" id="goConfirm" disabled>Продолжить</button>
+        <div class="note" id="homeNote">Выбери услугу и дату/время.</div>
+      </div>
+    </section>
+
+    <!-- SCREEN: SPEC -->
+    <section class="screen" id="screenSpec">
+      <div class="h1">Специалист</div>
+      <div class="card">
+        <div class="menuItem" id="specPick">
+          <div class="miIcon">💈</div>
+          <div class="miText">
+            <div class="miTitle">Мастер</div>
+            <div class="miSub">Единственный мастер в барбершопе</div>
+          </div>
+          <div class="miArrow">✓</div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <button class="primary" data-open="screenHome">Готово</button>
+      </div>
+    </section>
+
+    <!-- SCREEN: DATE -->
+    <section class="screen" id="screenDate">
+      <div class="h1">Дата и время</div>
+
+      <div class="card calCard">
+        <div class="calHead">
+          <div class="calMonth" id="calMonth"></div>
+          <div class="calNav">
+            <button id="prevMonth">‹</button>
+            <button id="nextMonth">›</button>
+          </div>
+        </div>
+
+        <div class="calGrid" id="calDow"></div>
+        <div class="calGrid" id="calDays"></div>
+      </div>
+
+      <div class="slotSection">
+        <div class="slotHead"><span>Утро</span><span class="chev">⌃</span></div>
+        <div class="slots" id="slotsMorning"></div>
+
+        <div class="slotHead"><span>День</span><span class="chev">⌃</span></div>
+        <div class="slots" id="slotsDay"></div>
+
+        <div class="slotHead"><span>Вечер</span><span class="chev">⌃</span></div>
+        <div class="slots" id="slotsEve"></div>
+      </div>
+
+      <div class="bottom">
+        <button class="primary" data-open="screenHome">Готово</button>
+        <div class="note">Работа: 10:00–20:00 • шаг 30 минут</div>
+      </div>
+    </section>
+
+    <!-- SCREEN: SERVICES -->
+    <section class="screen" id="screenServices">
+      <div class="h1">Выбрать услуги</div>
+
+      <input class="search" id="svcSearch" placeholder="Найти" />
+
+      <div class="sectionTitle">
+        <span>Услуги</span><span class="chev">⌃</span>
+      </div>
+
+      <div class="card" id="servicesList"></div>
+
+      <div class="bottom">
+        <button class="primary" data-open="screenHome">Готово</button>
+        <div class="note">Стрижка и Борода — 30 мин. Комплекс — 60 мин.</div>
+      </div>
+    </section>
+
+    <!-- SCREEN: CONFIRM -->
+    <section class="screen" id="screenConfirm">
+      <div class="h1">Подтверждение</div>
+
+      <div class="card pad">
+        <div class="sumLine" id="sumLine">—</div>
+        <div class="sumSub" id="sumSub">—</div>
+      </div>
+
+      <div class="gap"></div>
+
+      <div class="card pad">
+        <div class="label">Имя</div>
+        <input class="field" id="name" placeholder="Например: Илья" />
+
+        <div class="label">Телефон</div>
+        <input class="field" id="phone" placeholder="+7 999 000-00-00" />
+
+        <div class="label">Комментарий (необязательно)</div>
+        <input class="field" id="comment" placeholder="Например: без филировки" />
+      </div>
+
+      <div class="bottom">
+        <button class="primary" id="sendBtn">Записаться</button>
+        <div class="note" id="sendNote">После отправки запись появится в Google Таблице.</div>
+      </div>
+    </section>
+
+    <!-- SCREEN: PROFILE -->
+    <section class="screen" id="screenProfile">
+      <div class="h1">Профиль</div>
+
+      <div class="card pad">
+        <div class="profileHead">
+          <div class="profileAvatar">👤</div>
+          <div>
+            <div class="profileName" id="pfNameLine">Гость</div>
+            <div class="profileUser" id="pfUserLine">—</div>
+          </div>
+        </div>
+
+        <div class="label">Имя</div>
+        <input class="field" id="pfName" placeholder="Например: Илья" />
+
+        <div class="label">Телефон</div>
+        <input class="field" id="pfPhone" placeholder="+7 999 000-00-00" />
+
+        <div class="label">Предпочтения (необязательно)</div>
+        <input class="field" id="pfNote" placeholder="Например: без филировки" />
+
+        <div class="gap"></div>
+
+        <button class="primary" id="pfSave">Сохранить</button>
+        <div class="gap"></div>
+        <button class="primary outline" id="pfReset">Сбросить</button>
+
+        <div class="note" id="pfStatus">Профиль хранится на вашем устройстве.</div>
+      </div>
+
+      <div class="bottom">
+        <button class="primary" data-open="screenHome">Назад</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
