@@ -337,6 +337,18 @@ function isSlotBusy(slotTime, serviceDurationMin){
   return false;
 }
 
+function canFitInWorkDay(slotTime, serviceDurationMin){
+  const startMin = timeToMin(slotTime);
+  const [eh, em] = WORK_END.split(":").map(Number);
+  const workEndMin = eh*60 + em;
+  return startMin + serviceDurationMin <= workEndMin;
+}
+
+function isSlotSelectable(slotTime, serviceDurationMin){
+  if (!slotTime || !serviceDurationMin) return false;
+  return canFitInWorkDay(slotTime, serviceDurationMin) && !isSlotBusy(slotTime, serviceDurationMin);
+}
+
 function renderSlots(){
   const all = generateSlots();
   const durNeed = selectedServiceDuration || 0;
@@ -345,18 +357,17 @@ function renderSlots(){
   if ($("slotsDay")) $("slotsDay").innerHTML = "";
   if ($("slotsEve")) $("slotsEve").innerHTML = "";
 
-  const [eh, em] = WORK_END.split(":").map(Number);
-  const workEndMin = eh*60 + em;
+  if (selectedTime && durNeed && !isSlotSelectable(selectedTime, durNeed)) {
+    selectedTime = "";
+  }
 
   all.forEach(t => {
     const el = document.createElement("div");
     el.className = "slot" + (selectedTime === t ? " sel" : "");
     el.textContent = t;
 
-    const startMin = timeToMin(t);
-
     // 1) помещается ли услуга в рабочий день
-    const fits = !durNeed ? true : (startMin + durNeed <= workEndMin);
+    const fits = !durNeed ? true : canFitInWorkDay(t, durNeed);
 
     // 2) занято ли (пересечение с busyIntervals)
     const busy = durNeed ? isSlotBusy(t, durNeed) : false;
@@ -383,13 +394,20 @@ function renderSlots(){
   });
 
   if ($("dtSub")) $("dtSub").textContent = (selectedDate && selectedTime) ? `${selectedDate} • ${selectedTime}` : "Не выбрано";
+  updateHomeSummary();
 }
 
 /***********************
  * HOME SUMMARY
  ***********************/
 function updateHomeSummary(){
-  const ok = Boolean(selectedServiceKey && selectedDate && selectedTime);
+  const validSelection = Boolean(
+    selectedDate &&
+    selectedTime &&
+    selectedServiceDuration &&
+    isSlotSelectable(selectedTime, selectedServiceDuration)
+  );
+  const ok = Boolean(selectedServiceKey && validSelection);
 
   if ($("goConfirm")) $("goConfirm").disabled = !ok;
 
@@ -419,6 +437,11 @@ async function sendBooking(){
 
   if (!selectedServiceKey) return setSendNote("❗ Выбери услугу.");
   if (!selectedDate || !selectedTime) return setSendNote("❗ Выбери дату и время.");
+  if (!selectedServiceDuration || !isSlotSelectable(selectedTime, selectedServiceDuration)) {
+    await loadBusyForDate(selectedDate);
+    renderSlots();
+    return setSendNote("⛔ Выбранное время уже недоступно. Выбери другое.");
+  }
   if (!name) return setSendNote("❗ Введи имя.");
   if (!phone) return setSendNote("❗ Введи телефон.");
 
@@ -461,7 +484,7 @@ async function sendBooking(){
     }
 
     setSendNote("✅ Записано! Номер:\n" + data.booking_id);
-    if (btn) btn.textContent = "Готово";
+    if (btn) { btn.disabled = false; btn.textContent = "Записаться ещё"; }
 
     // после успешной записи — обновим busy, чтобы слот стал серым сразу
     await loadBusyForDate(selectedDate);
